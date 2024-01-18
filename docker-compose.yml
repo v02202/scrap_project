@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  backend:
+    build: 
+      context: .
+    container_name: backend-container
+    image: localhost/backend-image
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/backend
+    # command: "sh ./docker-backend-entry.sh"
+    # restart: always
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    container_name: mongodb
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_DATABASE=mongodb
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - ./mongo_db:/data/db
+      - .mongo-init.js:/docker-entrypoint-initdb.d/init-db.js:ro
+    ports:
+      - 27018:27017
