@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 import requests, os
 from werkzeug.middleware.proxy_fix import ProxyFix
-# from snstwitter import twitter
+from snstwitter import twitter, form
 import auth
 
 
@@ -11,7 +11,8 @@ app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
 # blueprint register
 app.register_blueprint(auth.bp)
-# app.register_blueprint(twitter)
+app.register_blueprint(twitter.tw, url_prefix='/tw')
+app.register_blueprint(form.fm)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
