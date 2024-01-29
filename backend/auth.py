@@ -65,6 +65,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = json_util.dumps(result['_id'])
+            g.user_id = result['_id']
             return redirect(url_for('index'))
 
         flash(error)

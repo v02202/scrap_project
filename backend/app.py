@@ -1,6 +1,7 @@
-from flask import Flask, render_template
-import requests, os
+from flask import Flask, render_template, request, session, g
+import requests, os, json
 from werkzeug.middleware.proxy_fix import ProxyFix
+from bson import json_util
 from snstwitter import twitter, form
 import auth
 
@@ -18,11 +19,22 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 
 @app.route('/')
 def index():
-    return 'App Works!'
+    if session.get('user_id') is not None:
+        session_user_id = json.loads(session.get('user_id'))
+        if isinstance(session_user_id, str):
+            g.user_id = session_user_id
+        elif isinstance(session_user_id, dict):
+            g.user_id = session_user_id['$oid']
+            
+    else:
+        oauth_verifier = request.args.get('oauth_verifier')
+        print('oauth_verifier: ', oauth_verifier)
+        if oauth_verifier is not None:
+            session['user_id'] = json_util.dumps(oauth_verifier)
+            g.user_id = oauth_verifier
+    return render_template("home.html")
 
-@app.route("/home")
-def home():
-   return render_template("home.html")
+
 
 
 if __name__ == '__main__':
