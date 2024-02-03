@@ -31,13 +31,13 @@ services:
     ports:
       - 27018:27017
 
-  # scrapy:
-  #   build: 
-  #     context: .
-  #     dockerfile: scrapy/Dockerfile
-  #   container_name: scrapy-container
-  #   image: localhost/scrapy-image
-  #   volumes:
-  #     - ./scrapy:/scrapy-code
-  #   ports:
-  #     - 8000:8000
+  scrapy:
+    build: 
+      context: .
+      dockerfile: scrapy/Dockerfile
+    container_name: scrapy-container
+    image: localhost/scrapy-image
+    volumes:
+      - ./scrapy:/scrapy-code
+    ports:
+      - 8000:8000

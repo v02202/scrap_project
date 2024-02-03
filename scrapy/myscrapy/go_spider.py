@@ -1,8 +1,8 @@
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
-from mycrawler.spiders.twitterspider import TwitterSpider
+from myscrapy.spiders.example import ExampleSpider
  
  
 process = CrawlerProcess(get_project_settings())
-process.crawl(TwitterSpider)
+process.crawl(ExampleSpider)
 process.start()

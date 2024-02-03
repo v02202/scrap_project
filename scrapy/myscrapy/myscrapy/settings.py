@@ -1,4 +1,4 @@
-# Scrapy settings for mycrawler project
+# Scrapy settings for myscrapy project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "mycrawler"
+BOT_NAME = "myscrapy"
 
-SPIDER_MODULES = ["mycrawler.spiders"]
-NEWSPIDER_MODULE = "mycrawler.spiders"
+SPIDER_MODULES = ["myscrapy.spiders"]
+NEWSPIDER_MODULE = "myscrapy.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "mycrawler (+http://www.yourdomain.com)"
+#USER_AGENT = "myscrapy (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -45,13 +45,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "mycrawler.middlewares.MycrawlerSpiderMiddleware": 543,
+#    "myscrapy.middlewares.MyscrapySpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "mycrawler.middlewares.MycrawlerDownloaderMiddleware": 543,
+#    "myscrapy.middlewares.MyscrapyDownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -63,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "mycrawler.pipelines.MycrawlerPipeline": 300,
+#    "myscrapy.pipelines.MyscrapyPipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -91,3 +91,9 @@ ROBOTSTXT_OBEY = True
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+DOWNLOAD_TIMEOUT = 540
+DOWNLOAD_DELAY = 5
+DEPTH_LIMIT = 10
+FEED_FORMAT = 'json'
+FEED_URI = 'outputfile.json'
