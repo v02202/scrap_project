@@ -8,6 +8,7 @@ import auth
 
 app = Flask(__name__, instance_relative_config=True)
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.jinja_env.filters['zip'] = zip
 
 
 # blueprint register
@@ -16,6 +17,8 @@ app.register_blueprint(twitter.tw, url_prefix='/tw')
 app.register_blueprint(form.fm)
 app.register_blueprint(bookwalker.sc)
 app.wsgi_app = ProxyFix(app.wsgi_app)
+
+
 
 
 @app.route('/')
