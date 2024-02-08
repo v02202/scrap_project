@@ -1,12 +1,37 @@
-<form method="POST">
-    {{ form.csrf_token }}
-    {{ form.scrape_url.label }} {{ form.scrape_url(size=50) }}
-    <input type="submit" value="Go">
-</form>
-{% if form.scrape_url.errors %}
-    <ul class="errors">
-    {% for error in form.scrape_url.errors %}
-        <li>{{ error }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p>Store your favorite comics from bookwalker</p>
+    <form method="POST">
+        {{ form.csrf_token }}
+        {{ form.scrape_url.label }} {{ form.scrape_url(size=50) }}
+        <input type="submit" value="Go">
+    </form>
+    {% if form.scrape_url.errors %}
+        <ul class="errors">
+        {% for error in form.scrape_url.errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <h3>History</h3>
+    {% if render_list|length > 0 %}
+        {% for element in render_list %}
+        <li>
+            <a href="{{ element }}">{{ element }}</a>
+        </li>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
+
+
+
+
+
+
+
