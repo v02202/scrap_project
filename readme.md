@@ -13,3 +13,5 @@
 1. Enter mongodb shell with your username and password: `docker-compose exec db mongosh -u "..." -p "..." `
 2. Enter backend if you want to create a new spider: `docker-compose exec backend bash`
 3. Check backend log: `docker-compose logs -f backend`
+
+(Check my [medium](https://medium.com/@v0220225/backend-flask-mongodb-scrapy-5fccbdefb0ae) for detail records)
