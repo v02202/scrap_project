@@ -1,30 +1,40 @@
+#
+# Deployment
+#
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment                              # Type of the kubernetes resource
 metadata:
   annotations:
     kompose.cmd: kompose -f docker-compose.yml convert
     kompose.version: 1.32.0 (HEAD)
-  labels:
+  labels: # Labels applied to this deployment
     io.kompose.service: backend
-  name: backend
+  name: backend  # Name of the deployment (Use this name as backend host in your application)
 spec:
-  replicas: 1
   selector:
-    matchLabels:
+    matchLabels:                              # This deployment applies to the Pods matching the specified labels
       io.kompose.service: backend
   strategy:
     type: Recreate
-  template:
+  replicas: 1
+  
+  template:                                   # Template for the pods in this deployment
     metadata:
       annotations:
         kompose.cmd: kompose -f docker-compose.yml convert
         kompose.version: 1.32.0 (HEAD)
-      labels:
-        io.kompose.network/scrap-project-default: "true"
+      labels:                                 # labels to be applied to the pods in this deployment
         io.kompose.service: backend
-    spec:
+        io.kompose.network/scrap-project-default: "true"
+
+    spec:                                     # The spec for the containers that will 
+                                              # be run inside the Pods in this deployment 
+      
       containers:
-        - env:
+        - image: v02202/scrape_project:1.0.6                # The container image
+          name: backend-container
+          imagePullPolicy: Always     # Get it from dockerhub 
+          env:
             - name: MONGO_INITDB_ROOT_PASSWORD
             - name: MONGO_INITDB_ROOT_USERNAME
             - name: SECRET_KEY
@@ -33,18 +43,74 @@ spec:
             - name: TWITTER_API_KEY
             - name: TWITTER_API_SECRET
             - name: TWITTER_BEARER_TOKEN
-          image: v02202/scrape_project:1.0.2
-          imagePullPolicy: IfNotPresent
-          name: backend-container
+          # command: ["/bin/sh"]
+          # args:
+          #   - -c
+          #   - >-
+          #       python ./backend/app.py
+          
           ports:
             - containerPort: 5000
               hostPort: 5000
               protocol: TCP
           volumeMounts:
-            - mountPath: /backend-code
-              name: backend-claim0
-      restartPolicy: Always
-      volumes:
-        - name: backend-claim0
+            - mountPath: /Users/appleuser/scrap_project/backend
+              name: backend-storage  # This name should match the name specified in `volumes.name`
+      volumes:                                # A PersistentVolume is mounted as a volume to the Pod
+        - name: backend-storage 
           persistentVolumeClaim:
             claimName: backend-claim0
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   annotations:
+#     kompose.cmd: kompose -f docker-compose.yml convert
+#     kompose.version: 1.32.0 (HEAD)
+#   labels:
+#     io.kompose.service: backend
+#   name: backend
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       io.kompose.service: backend
+#   strategy:
+#     type: Recreate
+#   template:
+#     metadata:
+#       annotations:
+#         kompose.cmd: kompose -f docker-compose.yml convert
+#         kompose.version: 1.32.0 (HEAD)
+#       labels:
+#         io.kompose.network/scrap-project-default: "true"
+#         io.kompose.service: backend
+#     spec:
+#       containers:
+#         - env:
+#             - name: MONGO_INITDB_ROOT_PASSWORD
+#             - name: MONGO_INITDB_ROOT_USERNAME
+#             - name: SECRET_KEY
+#             - name: TWITTER_ACCESS_SECRET
+#             - name: TWITTER_ACCESS_TOKEN
+#             - name: TWITTER_API_KEY
+#             - name: TWITTER_API_SECRET
+#             - name: TWITTER_BEARER_TOKEN
+#           image: v02202/scrape_project:1.0.3
+#           imagePullPolicy: Always
+#           name: backend-container
+#           ports:
+#             - containerPort: 5000
+#               hostPort: 5000
+#               protocol: TCP
+#           volumeMounts:
+#             - mountPath: /backend
+#               name: backend-claim0
+#       restartPolicy: Always
+#       volumes:
+#         - name: backend-claim0
+#           hostPath: 
+#             path: /Users/appleuser/scrap_project/backend
+#             type: DirectoryOrCreate
+#           persistentVolumeClaim:
+#             claimName: backend-claim0

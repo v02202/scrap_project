@@ -10,7 +10,7 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - ./backend:/backend-code
+      - ./backend:/backend
     # command: "sh ./docker-backend-entry.sh"
     # restart: always
     env_file:
