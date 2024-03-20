@@ -6,11 +6,13 @@ metadata:
     kompose.version: 1.32.0 (HEAD)
   labels:
     io.kompose.service: backend
-  name: backend
+  name: backend-db-service
 spec:
   ports:
     - name: "5000"
       port: 5000
-      targetPort: 5000
+      targetPort: 5000    
+
+  type: LoadBalancer
   selector:
     io.kompose.service: backend

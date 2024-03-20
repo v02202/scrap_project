@@ -11,9 +11,9 @@ spec:
     storage: 256Mi
   accessModes:
     - ReadWriteMany
-  hostPath:                                   # hostPath PersistentVolume is used for development and testing. It uses a file/directory on the Node to emulate network-attached storage
-    path: "/Users/appleuser/scrap_project/backend"
-  persistentVolumeReclaimPolicy: Retain       # Retain the PV even after PVC is deleted.
+  hostPath:                                   # a file/directory on the Node to emulate network-attached storage
+    path: /Users/appleuser/scrap_project/backend
+  # persistentVolumeReclaimPolicy: Retain       # Retain the PV even after PVC is deleted.
 ---
 #
 # Persistent Volume Claim
@@ -21,9 +21,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim                   # Create a PersistentVolumeClaim to request a PersistentVolume storage
 metadata:                                     # Claim name and labels
-  name: backend-claim0
+  name: backend-pvc
   labels:
-    io.kompose.service: backend-claim0
+    io.kompose.service: backend-pvc
 spec:                                         # Access mode and resource limits
   storageClassName: manual                    # Request a certain storage class
   accessModes:

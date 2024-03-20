@@ -1,12 +1,33 @@
+#
+# Persistent Volume
+#
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolume                        # Create a PV
 metadata:
+  name: db-pv
+spec:
+  storageClassName: manual                    # Storage class. A PV Claim requesting the same storageClass can be bound to this volume.
+  capacity:
+    storage: 256Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:                                   # hostPath PersistentVolume is used for development and testing. It uses a file/directory on the Node to emulate network-attached storage
+    path: "/tmp/db"
+  persistentVolumeReclaimPolicy: Retain       # Retain the PV even after PVC is deleted.
+---
+#
+# Persistent Volume Claim
+#
+apiVersion: v1
+kind: PersistentVolumeClaim                   # Create a PersistentVolumeClaim to request a PersistentVolume storage
+metadata:                                     # Claim name and labels
+  name: db-claim0
   labels:
     io.kompose.service: db-claim0
-  name: db-claim0
-spec:
+spec:                                         # Access mode and resource limits
+  storageClassName: manual                    # Request a certain storage class
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany                           # ReadWriteMany means the volume can be mounted as read-write by many Nodes
   resources:
     requests:
-      storage: 100Mi
+      storage: 256Mi

@@ -31,7 +31,7 @@ spec:
                                               # be run inside the Pods in this deployment 
       
       containers:
-        - image: v02202/scrape_project:1.0.6                # The container image
+        - image: v02202/scrape_project:1.0.3                # The container image
           name: backend-container
           imagePullPolicy: Always     # Get it from dockerhub 
           env:
@@ -43,23 +43,20 @@ spec:
             - name: TWITTER_API_KEY
             - name: TWITTER_API_SECRET
             - name: TWITTER_BEARER_TOKEN
-          # command: ["/bin/sh"]
-          # args:
-          #   - -c
-          #   - >-
-          #       python ./backend/app.py
+          # command: [ "/bin/bash", "-c", "--" ]       # You need to run some task inside a container to keep it running
+          # args: [ "while true; do sleep 10; done;" ]
           
           ports:
             - containerPort: 5000
               hostPort: 5000
               protocol: TCP
           volumeMounts:
-            - mountPath: /Users/appleuser/scrap_project/backend
+            - mountPath: /backend # /path/to/mount/inside/container
               name: backend-storage  # This name should match the name specified in `volumes.name`
       volumes:                                # A PersistentVolume is mounted as a volume to the Pod
         - name: backend-storage 
           persistentVolumeClaim:
-            claimName: backend-claim0
+            claimName: backend-pvc
 
 # apiVersion: apps/v1
 # kind: Deployment
