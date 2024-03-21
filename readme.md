@@ -1,4 +1,4 @@
-#### Scrape project ####
+# Scrape project #
 ### Set up (Docker-compos) ###
 1. Create an app in [Twitter develop console](https://developer.twitter.com/en)
 2. Copy .env.template as .env
@@ -9,7 +9,7 @@
     docker-compose up -d
     ```
 
-## Commend ##
+#### Commend ####
 1. Enter mongodb shell with your username and password: `docker-compose exec db mongosh -u "..." -p "..." `
 2. Enter backend if you want to create a new spider: `docker-compose exec backend bash`
 3. Check backend log: `docker-compose logs -f backend`
@@ -27,7 +27,7 @@ If ypu are using Mac M1 as same as me, please try to use the commend under.
 4. Open the backend service
     `minikube service backend-db-service`
 
-## Commend ##
+#### Commend ####
 1. List all pod: `kubectl get pod`
 2. Enter backend shell: `kubectl exec -it <backend pod name> bash`
 3. Enter db shell with username and password
