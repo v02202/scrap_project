@@ -25,10 +25,16 @@ spec:
     spec:
       containers:
         - env:
-            - name: MONGO_INITDB_DATABASE
-              value: mongodb
-            - name: MONGO_INITDB_ROOT_PASSWORD
-            - name: MONGO_INITDB_ROOT_USERNAME
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: mongo-initdb-root-password
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: mongo-initdb-root-username
           image: mongo:latest
           name: mongodb
           ports:

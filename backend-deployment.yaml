@@ -31,28 +31,61 @@ spec:
                                               # be run inside the Pods in this deployment 
       
       containers:
-        - image: v02202/scrape_project:1.0.3                # The container image
-          name: backend-container
-          imagePullPolicy: Always     # Get it from dockerhub 
-          env:
+          - image: v02202/scrape_project:1.0.3                # The container image
+            name: backend-container
+            imagePullPolicy: Always     # Get it from dockerhub 
+            env:
             - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: mongo-initdb-root-password
             - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: mongo-initdb-root-username
             - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: secret-key
             - name: TWITTER_ACCESS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: twitter-access-secret
             - name: TWITTER_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: twitter-access-token
             - name: TWITTER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: twitter-api-key
             - name: TWITTER_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: twitter-api-secret
             - name: TWITTER_BEARER_TOKEN
-          # command: [ "/bin/bash", "-c", "--" ]       # You need to run some task inside a container to keep it running
-          # args: [ "while true; do sleep 10; done;" ]
-          
-          ports:
-            - containerPort: 5000
-              hostPort: 5000
-              protocol: TCP
-          volumeMounts:
-            - mountPath: /backend # /path/to/mount/inside/container
-              name: backend-storage  # This name should match the name specified in `volumes.name`
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: twitter-bearer-secret
+
+            # command: [ "/bin/bash", "-c", "--" ]       # You need to run some task inside a container to keep it running
+            # args: [ "while true; do sleep 10; done;" ]
+            
+            ports:
+              - containerPort: 5000
+                hostPort: 5000
+                protocol: TCP
+            volumeMounts:
+              - mountPath: /backend # /path/to/mount/inside/container
+                name: backend-storage  # This name should match the name specified in `volumes.name`
       volumes:                                # A PersistentVolume is mounted as a volume to the Pod
         - name: backend-storage 
           persistentVolumeClaim:
